@@ -14,7 +14,7 @@ jobs:
         uses: docker://amazon/aws-cli
         shell: bash
         run: |
-          echo "until loop"
+          echo "until loop - trigger run - 2"
           i=50
           until [ $i == 1 ]
           do
