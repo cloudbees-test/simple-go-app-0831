@@ -9,7 +9,6 @@ on:
 
 jobs:
   build:
-    environment: production
     steps:
       - name: loop for many secs
         uses: docker://amazon/aws-cli
