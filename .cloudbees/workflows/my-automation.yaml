@@ -10,6 +10,9 @@ on:
 jobs:
   build:
     steps:
+      - name: Get source code
+        uses: cloudbees-io/checkout@v1
+
       - name: loop for many secs
         uses: docker://amazon/aws-cli
         shell: bash
