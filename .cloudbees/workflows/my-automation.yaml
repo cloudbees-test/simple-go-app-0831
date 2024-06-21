@@ -9,9 +9,17 @@ on:
 
 jobs:
   build:
+    outputs:
+      message: ${{ steps.write-message.outputs.message }}
     steps:
       - name: Get source code
         uses: cloudbees-io/checkout@v1
+
+      - id: write-message
+        name: write-message
+        uses: docker://621104816052.dkr.ecr.us-east-1.amazonaws.com/docker-hub/library/alpine:latest
+        run: |
+          printf %s this-is-the-message > $CLOUDBEES_OUTPUTS/message
 
       - name: loop for many secs
         uses: docker://amazon/aws-cli
@@ -27,3 +35,13 @@ jobs:
           done
           echo "i value is $i"
           echo "loop terminated"
+          exit 0
+  
+  read-message:
+    needs: [build]
+    steps:
+      - id: read-message
+        name: read-message
+        uses: docker://621104816052.dkr.ecr.us-east-1.amazonaws.com/docker-hub/library/alpine:latest
+        run: |
+          echo ${{ format('the messge passed from step write-message is - {0}', needs.build.outputs.message) }}
