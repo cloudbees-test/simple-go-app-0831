@@ -23,7 +23,7 @@ jobs:
         name: read-message
         uses: docker://621104816052.dkr.ecr.us-east-1.amazonaws.com/docker-hub/library/alpine:latest
         run: |
-          echo ${{ format('{0}', steps.write-message.outputs.message) }}
+          echo ${{ format('the messge passed from step write-message is - {0}', steps.write-message.outputs.message) }}
 
       - name: loop for many secs
         uses: docker://amazon/aws-cli
