@@ -13,6 +13,18 @@ jobs:
       - name: Get source code
         uses: cloudbees-io/checkout@v1
 
+      - id: write-message
+        name: write-message
+        uses: docker://621104816052.dkr.ecr.us-east-1.amazonaws.com/docker-hub/library/alpine:latest
+        run: |
+          printf %s this-is-the-message > $CLOUDBEES_OUTPUTS/message
+
+      - id: read-message
+        name: read-message
+        uses: docker://621104816052.dkr.ecr.us-east-1.amazonaws.com/docker-hub/library/alpine:latest
+        run: |
+          echo ${{ format('{0}', steps.write-message.outputs.message) }}
+
       - name: loop for many secs
         uses: docker://amazon/aws-cli
         shell: bash
