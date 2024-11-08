@@ -29,5 +29,4 @@ jobs:
           done
           echo "i value is $i"
           echo "loop terminated"
-          exit 0
   
