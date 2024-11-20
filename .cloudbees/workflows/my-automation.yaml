@@ -14,19 +14,17 @@ jobs:
     steps:
       - name: Get source code
         uses: cloudbees-io/checkout@v1
-
       - id: write-message
         name: write-message
         uses: docker://621104816052.dkr.ecr.us-east-1.amazonaws.com/docker-hub/library/alpine:latest
         run: |
           printf %s this-is-the-message > $CLOUDBEES_OUTPUTS/message
-
       - name: loop for many secs
         uses: docker://amazon/aws-cli
         shell: bash
         run: |
           echo "until loop - trigger run - 2"
-          i=50
+          i=20
           until [ $i == 1 ]
           do
               echo "countdown: $i secs";
@@ -36,7 +34,6 @@ jobs:
           echo "i value is $i"
           echo "loop terminated"
           exit 0
-  
   read-message:
     needs: [build]
     steps:
@@ -45,3 +42,4 @@ jobs:
         uses: docker://621104816052.dkr.ecr.us-east-1.amazonaws.com/docker-hub/library/alpine:latest
         run: |
           echo ${{ format('the messge passed from step write-message is - {0}', needs.build.outputs.message) }}
+  
